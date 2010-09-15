@@ -29,6 +29,7 @@ public class GeneratedKeysCustomizer<ResultType> extends BaseStatementCustomizer
         while (rs.next()) {
             results.add(mapper.map(i++, rs, ctx));
         }
+        rs.close();
     }
 
     public List<ResultType> getAll()
