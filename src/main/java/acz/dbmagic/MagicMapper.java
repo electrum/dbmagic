@@ -42,6 +42,9 @@ public class MagicMapper<T> implements ResultSetMapper<T>
         catch (IntrospectionException e) {
             throw new IllegalArgumentException(e);
         }
+        if (type.getMethods().length != properties.size()) {
+            throw new IllegalArgumentException("Class has non-bean methods");
+        }
     }
 
     @Override
