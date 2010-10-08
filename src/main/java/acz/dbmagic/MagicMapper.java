@@ -57,14 +57,14 @@ public class MagicMapper<T> implements ResultSetMapper<T>
         ResultSetMetaData metadata = rs.getMetaData();
 
         for (int i = 1; i <= metadata.getColumnCount(); i++) {
-            String name = metadata.getColumnName(i).toLowerCase().replace("_", "");
+            String name = metadata.getColumnLabel(i).toLowerCase().replace("_", "");
 
             if (index == 0) {
                 if (names.containsKey(name)) {
                     int dup = names.get(name);
                     throw new IllegalArgumentException(String.format(
                         "Column %d '%s' name is duplicated by column %d '%s'",
-                        i, metadata.getColumnName(i), dup, metadata.getColumnName(dup)));
+                        i, metadata.getColumnLabel(i), dup, metadata.getColumnLabel(dup)));
                 }
                 names.put(name, i);
             }
@@ -106,7 +106,7 @@ public class MagicMapper<T> implements ResultSetMapper<T>
             if (type.isPrimitive()) {
                 throw new IllegalArgumentException(String.format(
                     "Cannot assign null from column %d '%s' to property '%s' with primitive type '%s'",
-                    i, rs.getMetaData().getColumnName(i),
+                    i, rs.getMetaData().getColumnLabel(i),
                     descriptor.getName(), type.getName()));
             }
             return null;
@@ -139,7 +139,7 @@ public class MagicMapper<T> implements ResultSetMapper<T>
             throw new IllegalArgumentException(String.format(
                 "Value type '%s' from column %d '%s' is not assignable to property '%s' type '%s'",
                 value.getClass().getName(),
-                i, rs.getMetaData().getColumnName(i),
+                i, rs.getMetaData().getColumnLabel(i),
                 descriptor.getName(), type.getName()));
         }
         return value;
