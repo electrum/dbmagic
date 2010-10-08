@@ -102,7 +102,8 @@ public class MagicMapper<T> implements ResultSetMapper<T>
     {
         Class type = descriptor.getPropertyType();
 
-        if (rs.wasNull()) {
+        Object value = rs.getObject(i);
+        if (value == null) {
             if (type.isPrimitive()) {
                 throw new IllegalArgumentException(String.format(
                     "Cannot assign null from column %d '%s' to property '%s' with primitive type '%s'",
@@ -134,7 +135,6 @@ public class MagicMapper<T> implements ResultSetMapper<T>
             return rs.getDouble(i);
         }
 
-        Object value = rs.getObject(i);
         if (!type.isAssignableFrom(value.getClass())) {
             throw new IllegalArgumentException(String.format(
                 "Value type '%s' from column %d '%s' is not assignable to property '%s' type '%s'",
